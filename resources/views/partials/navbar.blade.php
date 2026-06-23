@@ -9,8 +9,8 @@ NAVBAR
         <!-- LOGO -->
 
         <a class="navbar-brand fw-bold" href="{{ route('home') }}">
-
-            GYM STYLE
+            <img src="{{asset('storage/' . $empresa->logo)}}" width="60" alt="">
+            {{$empresa->nombre}}
 
         </a>
 
@@ -18,15 +18,16 @@ NAVBAR
 
         <div class="d-flex align-items-center gap-3 d-lg-none">
 
-            <a href="#" class="nav-icon position-relative">
+            <a href="#" class="nav-icon position-relative"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#cartOffcanvas">
 
                 <i class="fa-solid fa-cart-shopping"></i>
 
                 <span
-                    id="cartCount"
-                    class="badge rounded-pill bg-warning text-dark">
+                    class="cartCount badge rounded-pill bg-warning text-dark" style="top: 10px; position: fixed;">
 
-                    0
+                    {{ Cart::count() }}
 
                 </span>
 
@@ -85,8 +86,8 @@ NAVBAR
 
                 <li class="nav-item">
 
-                    <a href="#"
-                        class="nav-link">
+                    <a href="{{ route('shop.accesorios') }}"
+                        class="nav-link {{ request()->routeIs('shop.accesorios') ? 'active' : '' }}">
 
                         Accesorios
 
@@ -94,7 +95,7 @@ NAVBAR
 
                 </li>
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
 
                     <a href="#"
                         class="nav-link text-warning">
@@ -103,7 +104,7 @@ NAVBAR
 
                     </a>
 
-                </li>
+                </li> -->
 
             </ul>
 
@@ -142,10 +143,9 @@ NAVBAR
                     <i class="fa-solid fa-cart-shopping"></i>
 
                     <span
-                        id="cartCount"
-                        class="badge rounded-pill bg-warning text-dark">
+                        class="cartCount badge rounded-pill bg-warning text-dark" style="top: 10px; position: fixed;">
 
-                        2
+                        {{ Cart::count() }}
 
                     </span>
 
@@ -237,7 +237,7 @@ OFFCANVAS MOBILE
             <li class="nav-item mb-2">
 
                 <a
-                    href="#"
+                    href="{{ route('shop.hombre') }}"
                     class="nav-link text-white">
 
                     Accesorios
@@ -246,7 +246,7 @@ OFFCANVAS MOBILE
 
             </li>
 
-            <li class="nav-item mb-4">
+            <!-- <li class="nav-item mb-4">
 
                 <a
                     href="#"
@@ -256,7 +256,7 @@ OFFCANVAS MOBILE
 
                 </a>
 
-            </li>
+            </li> -->
 
         </ul>
 
@@ -347,52 +347,7 @@ CART OFFCANVAS
 
     </div>
 
-    <div class="offcanvas-body p-0">
-
-        <!-- ITEM -->
-
-        @for($i=1;$i<=3;$i++)
-
-        <div class="cart-item">
-
-            <img
-                src="https://picsum.photos/120/120?random={{$i}}">
-
-            <div class="flex-grow-1">
-
-                <h6>
-
-                    Performance Shirt
-
-                </h6>
-
-                <small class="text-muted">
-
-                    Negro · M
-
-                </small>
-
-                <div class="mt-2 fw-bold">
-
-                    S/.89
-
-                </div>
-
-            </div>
-
-            <div class="qty-box">
-
-                <button>-</button>
-
-                <span>1</span>
-
-                <button>+</button>
-
-            </div>
-
-        </div>
-
-        @endfor
+    <div class="offcanvas-body p-0" id="cartItems">
 
     </div>
 
@@ -400,15 +355,11 @@ CART OFFCANVAS
 
         <div class="d-flex justify-content-between mb-2">
 
-            <span>
+            <span>Subtotal</span>
 
-                Subtotal
+            <strong id="cartSubtotal">
 
-            </span>
-
-            <strong>
-
-                S/.267
+                S/.0.00
 
             </strong>
 
@@ -434,15 +385,11 @@ CART OFFCANVAS
 
         <div class="d-flex justify-content-between mb-4">
 
-            <h5>
+            <h5>Total</h5>
 
-                Total
+            <h5 id="cartTotal">
 
-            </h5>
-
-            <h5>
-
-                S/.267
+                S/.0.00
 
             </h5>
 

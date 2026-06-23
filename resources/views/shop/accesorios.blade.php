@@ -231,7 +231,7 @@ PRODUCTOS
 
                 <h2 class="text-white h1 mb-0">
 
-                    COLECCIÓN HOMBRE
+                    COLECCIÓN ACCESORIOS
 
                 </h2>
 
@@ -669,11 +669,6 @@ PROMO
 
         });
 
-    });
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        loadCart();
     });
 
 </script> -->

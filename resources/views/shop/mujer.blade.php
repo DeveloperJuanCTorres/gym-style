@@ -50,102 +50,114 @@ HERO MUJER
 
 </section>
 
+<div class="container d-lg-none py-3">
+
+    <button
+        class="mobile-filter-btn"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#mobileFilters">
+
+        <i class="fa-solid fa-sliders"></i>
+
+        <span>Filtros</span>
+
+        <span class="filter-count">
+            24
+        </span>
+
+    </button>
+
+</div>
 
 <!-- =========================================
 CATEGORIAS
 ========================================= -->
 
-<section class="py-5 bg-black">
+<section class="shop-toolbar d-none d-lg-block">
 
-    <div class="container">
+    <div class="container-fluid px-md-5">
 
-        <div class="row g-4">
+        <div class="toolbar-wrapper">
 
-            <div class="col-md-3">
+            <div class="toolbar-left">
 
-                <div class="promo-card">
-
-                    <img src="https://picsum.photos/500/700?random=21">
-
-                    <div class="promo-overlay"></div>
-
-                    <div class="promo-content">
-
-                        <h4 class="text-white">
-
-                            LEGGINGS
-
-                        </h4>
-
-                    </div>
-
-                </div>
+                <span class="products-count">
+                    {{ $products->total() }} Productos
+                </span>
 
             </div>
 
-            <div class="col-md-3">
+            <div class="toolbar-center">
 
-                <div class="promo-card">
+                <select class="toolbar-select"
+                    onchange="window.location=this.value">
 
-                    <img src="https://picsum.photos/500/700?random=22">
+                    <option value="">
+                        Todas las categorías
+                    </option>
 
-                    <div class="promo-overlay"></div>
+                    @foreach($types as $type)
 
-                    <div class="promo-content">
+                    <option
+                        value="{{ request()->fullUrlWithQuery(['type'=>$type->id]) }}"
+                        {{ request('type') == $type->id ? 'selected' : '' }}>
 
-                        <h4 class="text-white">
+                        {{ $type->name }}
 
-                            TOPS
+                    </option>
 
-                        </h4>
+                    @endforeach
 
-                    </div>
+                </select>
 
-                </div>
+                <select class="toolbar-select"
+                    onchange="window.location=this.value">
+
+                    <option value="">
+                        Todas las marcas
+                    </option>
+
+                    @foreach($brands as $brand)
+
+                    <option
+                        value="{{ request()->fullUrlWithQuery(['brand'=>$brand->id]) }}"
+                        {{ request('brand') == $brand->id ? 'selected' : '' }}>
+
+                        {{ $brand->nombre }}
+
+                    </option>
+
+                    @endforeach
+
+                </select>
 
             </div>
 
-            <div class="col-md-3">
+            <div class="toolbar-right">
 
-                <div class="promo-card">
+                <select class="toolbar-select"
+                    onchange="window.location=this.value">
 
-                    <img src="https://picsum.photos/500/700?random=23">
+                    <option value="{{ request()->url() }}">
+                        Ordenar
+                    </option>
 
-                    <div class="promo-overlay"></div>
+                    <option
+                        value="{{ request()->fullUrlWithQuery(['sort'=>'newest']) }}">
+                        Más recientes
+                    </option>
 
-                    <div class="promo-content">
+                    <option
+                        value="{{ request()->fullUrlWithQuery(['sort'=>'price_asc']) }}">
+                        Precio ↑
+                    </option>
 
-                        <h4 class="text-white">
+                    <option
+                        value="{{ request()->fullUrlWithQuery(['sort'=>'price_desc']) }}">
+                        Precio ↓
+                    </option>
 
-                            SHORTS
-
-                        </h4>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="promo-card">
-
-                    <img src="https://picsum.photos/500/700?random=24">
-
-                    <div class="promo-overlay"></div>
-
-                    <div class="promo-content">
-
-                        <h4 class="text-white">
-
-                            CONJUNTOS
-
-                        </h4>
-
-                    </div>
-
-                </div>
+                </select>
 
             </div>
 
@@ -155,6 +167,50 @@ CATEGORIAS
 
 </section>
 
+<div class="offcanvas offcanvas-end bg-black"
+    id="mobileFilters">
+
+    <div class="offcanvas-header border-bottom border-dark">
+
+        <h5 class="text-white fw-bold">
+            FILTROS
+        </h5>
+
+        <button class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas">
+        </button>
+
+    </div>
+
+    <div class="offcanvas-body">
+
+        <div class="filter-group">
+
+            <h6>CATEGORÍAS</h6>
+
+            <div class="filter-chip">Polos</div>
+            <div class="filter-chip">Shorts</div>
+            <div class="filter-chip">Joggers</div>
+
+        </div>
+
+        <div class="filter-group mt-4">
+
+            <h6>MARCAS</h6>
+
+            <div class="filter-chip">Nike</div>
+            <div class="filter-chip">Adidas</div>
+            <div class="filter-chip">Gymshark</div>
+
+        </div>
+
+        <button class="btn btn-light w-100 py-3 mt-5">
+            VER PRODUCTOS
+        </button>
+
+    </div>
+
+</div>
 
 
 <!-- =========================================
@@ -169,15 +225,15 @@ PRODUCTOS
 
             <div>
 
-                <span class="label-caps text-kinetic-yellow">
+                <span class="label-caps text-kinetic-yellow mb-2 d-block">
 
-                    WOMEN COLLECTION
+                    MEN COLLECTION
 
                 </span>
 
-                <h2 class="text-white h1 mt-2">
+                <h2 class="text-white h1 mb-0">
 
-                    NUEVA COLECCIÓN
+                    COLECCIÓN HOMBRE
 
                 </h2>
 
@@ -194,21 +250,35 @@ PRODUCTOS
 
         <div class="row g-4">
 
-            @for($i=1;$i<=8;$i++)
+            @foreach($products as $product)
 
-                <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3">
 
                 <div class="product-card">
 
                     <div class="product-img-wrapper">
 
-                        <img src="https://picsum.photos/500/700?random={{$i+50}}">
+                        <img
+                            src="{{ Voyager::image($product->image) }}"
+                            alt="{{ $product->name }}">
 
-                        <button class="btn btn-add-cart">
+                        <div class="position-absolute top-0 start-0 p-3">
+
+                            <span class="badge badge-new rounded-0">
+
+                                Nuevo
+
+                            </span>
+
+                        </div>
+
+                        <!-- <button class="btn btn-add-cart" id="btnAddToCart">
 
                             AÑADIR AL CARRITO
 
-                        </button>
+                        </button> -->
+
+                        
 
                     </div>
 
@@ -216,48 +286,63 @@ PRODUCTOS
 
                         <div>
 
-                            <h3 class="text-white fs-6">
+                            <h3 class="text-white fs-6 text-uppercase mb-1">
 
-                                FIT COLLECTION
+                                {{ $product->name }}
 
                             </h3>
 
-                            <span class="text-secondary">
+                            <span class="label-caps text-kinetic-yellow">
+                                @php
+                                    $sizes = $product->variants
+                                        ->pluck('size.name')
+                                        ->filter()
+                                        ->unique()
+                                        ->implode(' / ');
+                                @endphp
 
-                                TOP + LEGGING
+                                {{ $sizes }}
 
                             </span>
 
                         </div>
 
-                        <div>
+                        <div class="text-end">
 
-                            <span class="text-white fw-bold">
+                            <span class="text-white fw-bold fs-5">
 
-                                S/.119
+                                S/. {{ number_format($product->price,2) }}
 
                             </span>
 
                         </div>
 
                     </div>
+                    <button
+                            class="btn btn-outline-light btn-sm mt-2 w-100"
+                            data-bs-toggle="modal"
+                            data-bs-target="#productModal"
+                            onclick="loadProduct({{ $product->id }})">
+
+                            VER DETALLE
+
+                        </button>
 
                 </div>
 
+            </div>
+
+            @endforeach
+
         </div>
-
-        @endfor
-
-    </div>
 
     </div>
 
 </section>
 
 
-
 <!-- =========================================
-LIFESTYLE
+PROMO
 ========================================= -->
 
 <section class="promo-section">
@@ -266,120 +351,328 @@ LIFESTYLE
 
         <div class="promo-card">
 
-            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600">
+            <img
+                src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600"
+                alt="">
 
             <div class="promo-overlay"></div>
 
             <div class="promo-content">
 
-                <span
-                    class="badge rounded-0 bg-kinetic-yellow text-dark">
+                <span class="badge rounded-0 label-caps py-2 px-3 bg-kinetic-yellow text-dark">
 
-                    NEW DROP
+                    MEN PERFORMANCE
 
                 </span>
 
-                <h2 class="text-white mt-4">
+                <h2 class="text-white mt-3">
 
-                    TRAIN.
-                    LOOK GOOD.
+                    HASTA 35% OFF
 
                 </h2>
 
                 <p class="text-secondary">
 
-                    La colección más esperada del año.
+                    Solo esta semana.
 
                 </p>
 
-                <button class="btn btn-kinetic-primary">
+                <a href="#"
+                    class="text-kinetic-yellow text-decoration-none">
 
-                    COMPRAR
+                    VER OFERTAS
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div
+    class="modal fade"
+    id="productModal"
+    tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content bg-dark text-white border-0">
+
+            <div class="modal-body p-0">
+
+                <div class="row g-0">
+
+                    <div class="col-lg-6">
+
+                        <img
+                            id="modalImage"
+                            class="w-100 h-100 object-fit-cover">
+
+                        <div
+                            id="modalGallery"
+                            class="d-flex gap-2 mt-3 flex-wrap">
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 p-5">
+
+                        <span
+                            id="modalBrand"
+                            class="text-warning small">
+                        </span>
+
+                        <h2 id="modalName"></h2>
+
+                        <h3 id="modalPrice"></h3>
+
+                        <div
+                            id="modalDescription"
+                            class="text-secondary mt-4">
+                        </div>
+
+                        <div class="mt-4">
+
+                            <h6 class="fw-bold">
+                                Color
+                            </h6>
+
+                            <div id="modalColors"></div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <h6>Tallas disponibles</h6>
+
+                            <div id="modalSizes"></div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <div id="modalStock"></div>
+
+                            <div id="modalSku"></div>
+
+                        </div>
+
+                        <button
+                            class="btn btn-kinetic-primary w-100 mt-4" id="btnAddToCart">
+
+                            Añadir al carrito
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 
+<script>
+    let currentProduct = null;
+    let selectedColor = null;
+    let selectedSize = null;
+
+    function loadProduct(id)
+    {
+        fetch('/producto/' + id + '/detalle')
+        .then(response => response.json())
+        .then(product => {
+
+            currentProduct = product;
+
+            document.getElementById('modalName')
+                .innerHTML = product.name;
+
+            document.getElementById('modalBrand')
+                .innerHTML = product.brand.nombre;
+
+            document.getElementById('modalPrice')
+                .innerHTML = 'S/. ' + product.price;
+
+            document.getElementById('modalDescription')
+                .innerHTML = product.description;
+
+            document.getElementById('modalImage')
+                .src = '/storage/' + product.image;
+
+            renderGallery(product);
+            renderColors(product);
+
+        });
+    }
+
+    function renderGallery(product)
+    {
+        let html = '';
+
+        html += `
+            <img
+                src="/storage/${product.image.replace(/\\/g,'/')}"
+                class="thumb-image"
+                onclick="changeMainImage('/storage/${product.image.replace(/\\/g,'/')}')">
+        `;
+
+        product.variants.forEach(v => {
+
+            if(v.image)
+            {
+                let img = v.image.replace(/\\/g,'/');
+
+                html += `
+                    <img
+                        src="/storage/${img}"
+                        class="thumb-image"
+                        onclick="changeMainImage('/storage/${img}')">
+                `;
+            }
+        });
+
+        document.getElementById('modalGallery').innerHTML = html;
+    }
+
+    function renderColors(product)
+    {
+        let colors = [];
+
+        product.variants.forEach(v => {
+
+            if(!colors.find(c => c.id == v.color.id))
+            {
+                colors.push(v.color);
+            }
+        });
+
+        let html = '';
+
+        colors.forEach(color => {
+
+            html += `
+                <button
+                    class="btn btn-outline-light me-2 mb-2"
+                    onclick="selectColor(${color.id})">
+
+                    ${color.name}
 
                 </button>
+            `;
+        });
 
-            </div>
+        document.getElementById('modalColors').innerHTML = html;
+    }
 
-        </div>
+    function changeMainImage(src)
+    {
+        document.getElementById('modalImage').src = src;
+    }
 
-    </div>
+    function selectColor(colorId)
+    {
+        selectedColor = colorId;
 
-</section>
+        let variants = currentProduct.variants
+            .filter(v => v.color_id == colorId);
 
+        if(variants.length > 0)
+        {
+            if(variants[0].image)
+            {
+                document.getElementById('modalImage')
+                .src = '/storage/' + variants[0].image;
+            }
+        }
 
+        renderSizes(variants);
+    }
 
-<!-- =========================================
-LOOK COMPLETO
-========================================= -->
+    function renderSizes(variants)
+    {
+        let html = '';
 
-<section class="product-section">
+        variants.forEach(v => {
 
-    <div class="container-fluid px-md-5">
+            html += `
+                <button
+                    class="btn btn-outline-secondary me-2 mb-2"
+                    onclick="selectSize(${v.id})">
 
-        <div class="row g-4">
+                    ${v.size.name}
 
-            <div class="col-lg-6">
+                </button>
+            `;
+        });
 
-                <div class="promo-card">
+        document.getElementById('modalSizes').innerHTML = html;
+    }
 
-                    <img src="https://picsum.photos/800/900?random=90">
+    function selectSize(variantId)
+    {
+        selectedVariant = variantId;
 
-                    <div class="promo-overlay"></div>
+        let variant = currentProduct.variants
+            .find(v => v.id == variantId);
 
-                    <div class="promo-content">
+        document.getElementById('modalStock')
+            .innerHTML =
+            'Stock disponible: ' + variant.stock;
 
-                        <h2 class="text-white">
+        document.getElementById('modalSku')
+            .innerHTML =
+            'SKU: ' + variant.sku;
+    }
+    
+    document
+    .getElementById('btnAddToCart')
+    .addEventListener('click',function(){
 
-                            LOOK COMPLETO
+        if(!selectedVariant)
+        {
+            alert('Seleccione una talla');
+            return;
+        }
 
-                        </h2>
+        fetch('/cart/add',{
 
-                        <p class="text-secondary">
+            method:'POST',
 
-                            Combina tus prendas favoritas.
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRF-TOKEN':
+                document
+                .querySelector(
+                    'meta[name="csrf-token"]'
+                ).content
+            },
 
-                        </p>
+            body:JSON.stringify({
 
-                    </div>
+                variant_id:selectedVariant
 
-                </div>
+            })
 
-            </div>
+        })
+        .then(r=>r.json())
+        .then(data=>{
 
-            <div class="col-lg-6">
+            loadCart();
 
-                <div class="promo-card">
+        });
 
-                    <img src="https://picsum.photos/800/900?random=91">
-
-                    <div class="promo-overlay"></div>
-
-                    <div class="promo-content">
-
-                        <h2 class="text-white">
-
-                            ACTIVE LIFESTYLE
-
-                        </h2>
-
-                        <p class="text-secondary">
-
-                            Diseñado para cualquier momento del día.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
+    });
+</script> -->
 
 
 @endsection
