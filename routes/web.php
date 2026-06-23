@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,7 +42,23 @@ Route::delete('/cart/remove/{rowId}', [CartController::class,'remove'])
 
 Route::get('/cart/content', [CartController::class,'content'])
     ->name('cart.content');
+    
 
+Route::get('/clear-cache-temp', function () {
+
+Artisan::call('optimize:clear');
+
+Artisan::call('config:clear');
+
+Artisan::call('cache:clear');
+
+Artisan::call('route:clear');
+
+Artisan::call('view:clear');
+
+return nl2br(Artisan::output()) . '<br><br>CACHE LIMPIADA';
+
+});
 // Route::get('/producto/{slug}',[ShopController::class,'producto'])->name('producto');
 
 // Route::get('/checkout',[ShopController::class,'checkout'])->name('checkout');
