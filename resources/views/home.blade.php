@@ -25,8 +25,8 @@
         </h1>
 
         <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mt-5">
-            <button class="btn btn-kinetic-primary">Explorar Hombre</button>
-            <button class="btn btn-kinetic-outline">Explorar Mujer</button>
+            <a href="{{ route('shop.hombre') }}" class="btn btn-kinetic-primary">Explorar Hombre</a>
+            <a href="{{ route('shop.mujer') }}" class="btn btn-kinetic-outline">Explorar Mujer</a>
         </div>
 
     </div>
