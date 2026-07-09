@@ -395,17 +395,19 @@ CART OFFCANVAS
 
         </div>
 
-        <button class="btn btn-warning w-100 mb-2">
+        <a href="{{ route('checkout.index') }}" class="btn btn-warning w-100 mb-2">
 
             FINALIZAR COMPRA
 
-        </button>
+        </a>
 
-        <button class="btn btn-dark w-100">
+        <a
+            href="{{ route('cart.index') }}"
+            class="btn btn-dark w-100">
 
             VER CARRITO
 
-        </button>
+        </a>
 
     </div>
 

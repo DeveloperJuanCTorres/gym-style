@@ -32,17 +32,17 @@ HERO HOMBRE
 
         </h1>
 
-        <p class="text-secondary fs-5 mt-4">
+        <p class="text-white fs-5 mt-4">
 
             Ropa diseñada para superar cada entrenamiento.
 
         </p>
 
-        <button class="btn btn-kinetic-primary mt-4">
+        <!-- <button class="btn btn-kinetic-primary mt-4">
 
             EXPLORAR AHORA
 
-        </button>
+        </button> -->
 
     </div>
 

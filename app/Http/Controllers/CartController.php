@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        $empresa = Company::first();
+        return view('shop.cart', compact('empresa'));
+    }
+
+    public function checkout()
+    {
+        $empresa = Company::first();
+        return view('shop.checkout', compact('empresa'));
+    }
+
     public function add(Request $request)
     {
         $variant = ProductVariant::with([
@@ -61,13 +74,14 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
-        Cart::update(
-            $request->rowId,
-            $request->qty
-        );
+        $qty = max(1, (int) $request->qty);
+
+        Cart::update($request->rowId, $qty);
 
         return response()->json([
-            'success'=>true
+            'success' => true,
+            'count' => Cart::count(),
+            'subtotal' => Cart::subtotal()
         ]);
     }
 
@@ -77,6 +91,15 @@ class CartController extends Controller
 
         return response()->json([
             'success'=>true
+        ]);
+    }
+
+    public function destroy()
+    {
+        Cart::destroy();
+
+        return response()->json([
+            'success' => true
         ]);
     }
 }

@@ -50,4 +50,16 @@ class HomeController extends Controller
             'categorias'
         ));
     }
+
+    public function terminos()
+    {
+        $empresa = Company::first();
+        return view('terminos',compact('empresa'));
+    }
+
+    public function politicas()
+    {
+        $empresa = Company::first();
+        return view('politicas',compact('empresa'));
+    }
 }

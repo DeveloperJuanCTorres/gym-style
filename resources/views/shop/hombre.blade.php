@@ -32,17 +32,17 @@ HERO HOMBRE
 
         </h1>
 
-        <p class="text-secondary fs-5 mt-4">
+        <p class="text-white fs-5 mt-4">
 
             Ropa diseñada para superar cada entrenamiento.
 
         </p>
 
-        <button class="btn btn-kinetic-primary mt-4">
+        <!-- <button class="btn btn-kinetic-primary mt-4">
 
             EXPLORAR AHORA
 
-        </button>
+        </button> -->
 
     </div>
 
@@ -186,9 +186,19 @@ CATEGORIAS
 
             <h6>CATEGORÍAS</h6>
 
-            <div class="filter-chip">Polos</div>
-            <div class="filter-chip">Shorts</div>
-            <div class="filter-chip">Joggers</div>
+            @foreach($types as $type)
+                <a href="{{ request()->fullUrlWithQuery(['type'=>$type->id]) }}" 
+                    class="text-decoration-none text-white">
+                    <div
+                        
+                        class="filter-chip">
+
+                        {{ $type->name }}
+
+                    </div>
+                </a>
+
+            @endforeach
 
         </div>
 
@@ -196,15 +206,29 @@ CATEGORIAS
 
             <h6>MARCAS</h6>
 
-            <div class="filter-chip">Nike</div>
-            <div class="filter-chip">Adidas</div>
-            <div class="filter-chip">Gymshark</div>
+            @foreach($brands as $brand)
+
+                <a
+                    href="{{ request()->fullUrlWithQuery(['brand'=>$brand->id]) }}"
+                    class="text-decoration-none">                    
+
+                    <div
+                        
+                        class="filter-chip">
+
+                        {{ $brand->nombre }}
+
+                    </div>
+
+                </a>
+
+            @endforeach
 
         </div>
 
-        <button class="btn btn-light w-100 py-3 mt-5">
+        <!-- <button class="btn btn-light w-100 py-3 mt-5">
             VER PRODUCTOS
-        </button>
+        </button> -->
 
     </div>
 
@@ -343,7 +367,7 @@ PRODUCTOS
 PROMO
 ========================================= -->
 
-<section class="promo-section">
+<!-- <section class="promo-section">
 
     <div class="container-fluid px-md-5">
 
@@ -388,7 +412,7 @@ PROMO
 
     </div>
 
-</section>
+</section> -->
 
 
 <div

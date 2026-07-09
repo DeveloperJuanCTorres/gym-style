@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <?php
-        $version = '1993.4.6';
+        $version = '1993.4.7';
     ?>
 
     <!-- Fonts -->
@@ -71,12 +71,16 @@
             .then(r=>r.json())
             .then(cart=>{
 
-                let html = '';
+                let offcanvasHtml = '';
+                let pageHtml = '';
+                let checkoutHtml = '';
 
                 cart.items.forEach(item=>{
 
-                    html += `
-                    <div class="cart-item">
+                    offcanvasHtml += `
+                    <div class="cart-item"
+                        data-rowid="${item.rowId}"
+                        data-qty="${item.qty}">
 
                         <img
                         src="${item.options.image}">
@@ -103,27 +107,185 @@
 
                         </div>
 
-                        <div class="qty-box">
+                        <div class="d-flex flex-column align-items-end">
 
                             <button
-                            onclick="decreaseQty('${item.rowId}')">
+                                class="btn btn-sm text-danger mb-2"
+                                onclick="removeItem('${item.rowId}')"
+                                title="Eliminar">
 
-                            -
+                                <i class="fa-solid fa-trash"></i>
 
                             </button>
 
-                            <span>
+                            <div class="qty-box">
 
-                            ${item.qty}
+                                <button onclick="decreaseQty('${item.rowId}')">
+                                    -
+                                </button>
 
-                            </span>
+                                <span>${item.qty}</span>
 
-                            <button
-                            onclick="increaseQty('${item.rowId}')">
+                                <button onclick="increaseQty('${item.rowId}')">
+                                    +
+                                </button>
 
-                            +
+                            </div>
 
-                            </button>
+                        </div>
+
+                    </div>
+                    `;
+
+                    pageHtml += `
+                    <div class="card border-0 shadow-sm mb-4">
+
+                        <div class="card-body">
+
+                            <div class="row align-items-center">
+
+                                <div class="col-md-2 text-center">
+
+                                    <img
+                                        src="${item.options.image}"
+                                        class="img-fluid rounded"
+                                        style="max-height:120px;object-fit:cover;">
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <h5 class="fw-bold mb-2">
+                                        ${item.name}
+                                    </h5>
+
+                                    <div class="text-muted">
+
+                                        Color:
+                                        <strong>${item.options.color}</strong>
+
+                                    </div>
+
+                                    <div class="text-muted">
+
+                                        Talla:
+                                        <strong>${item.options.size}</strong>
+
+                                    </div>
+
+                                    <div class="mt-2">
+
+                                        Precio:
+                                        <strong>S/. ${item.price}</strong>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3 text-center">
+
+                                    <div
+                                        class="qty-box d-inline-flex"
+                                        data-rowid="${item.rowId}"
+                                        data-qty="${item.qty}">
+
+                                        <button
+                                            onclick="decreaseQty('${item.rowId}')">
+
+                                            -
+
+                                        </button>
+
+                                        <span class="px-3">
+
+                                            ${item.qty}
+
+                                        </span>
+
+                                        <button
+                                            onclick="increaseQty('${item.rowId}')">
+
+                                            +
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2 text-center">
+
+                                    <h5>
+
+                                        S/. ${(item.qty * item.price).toFixed(2)}
+
+                                    </h5>
+
+                                </div>
+
+                                <div class="col-md-1 text-end">
+
+                                    <button
+                                        class="btn btn-link text-danger"
+                                        onclick="removeItem('${item.rowId}')">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    `;
+
+                    checkoutHtml += `
+                    <div class="d-flex mb-3">
+
+                        <div class="me-3">
+
+                            <img
+                                src="${item.options.image}"
+                                class="rounded"
+                                style="width:70px;height:70px;object-fit:cover;">
+
+                        </div>
+
+                        <div class="flex-grow-1">
+
+                            <h6 class="mb-1 fw-bold">
+
+                                ${item.name}
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                ${item.options.color}
+                                ·
+                                ${item.options.size}
+
+                            </small>
+
+                            <div class="small text-muted">
+
+                                Cantidad:
+                                ${item.qty}
+
+                            </div>
+
+                        </div>
+
+                        <div class="text-end">
+
+                            <strong>
+
+                                S/. ${(item.price * item.qty).toFixed(2)}
+
+                            </strong>
 
                         </div>
 
@@ -131,23 +293,155 @@
                     `;
                 });
 
-                document.querySelectorAll('.cartCount')
-                .forEach(el => {
+                // Actualizar contador del carrito
+                document.querySelectorAll('.cartCount').forEach(el => {
                     el.innerHTML = cart.count;
                 });
 
-                document.getElementById('cartItems')
-                .innerHTML = html;
+                // ===========================
+                // OFFCANVAS
+                // ===========================
 
-                document
-                .querySelector('#cartSubtotal')
-                .innerHTML =
-                'S/.'+cart.subtotal;
+                if (document.getElementById('cartItems')) {
 
-                document
-                .querySelector('#cartTotal')
-                .innerHTML =
-                'S/.'+cart.total;
+                    document.getElementById('cartItems').innerHTML = offcanvasHtml;
+
+                    document.getElementById('cartSubtotal').innerHTML =
+                        'S/.' + cart.subtotal;
+
+                    document.getElementById('cartTotal').innerHTML =
+                        'S/.' + cart.total;
+                }
+
+                // ===========================
+                // PÁGINA DEL CARRITO
+                // ===========================
+
+                if (document.getElementById('cartPageItems')) {
+
+                    document.getElementById('cartPageItems').innerHTML = pageHtml;
+
+                    document.getElementById('pageSubtotal').innerHTML =
+                        'S/.' + cart.subtotal;
+
+                    document.getElementById('pageTotal').innerHTML =
+                        'S/.' + cart.total;
+                }
+
+                // ===========================
+                // CHECKOUT
+                // ===========================
+
+                if (document.getElementById('checkoutItems')) {
+
+                    document.getElementById('checkoutItems').innerHTML =
+                        checkoutHtml;
+
+                    document.getElementById('checkoutSubtotal').innerHTML =
+                        'S/. ' + cart.subtotal;
+
+                    document.getElementById('checkoutTotal').innerHTML =
+                        'S/. ' + cart.total;
+                }
+
+            });
+        }
+
+        function updateQty(rowId, qty)
+        {
+            fetch('/cart/update', {
+
+                method: 'POST',
+
+                headers: {
+
+                    'Content-Type': 'application/json',
+
+                    'X-CSRF-TOKEN': document
+                        .querySelector('meta[name="csrf-token"]').content
+
+                },
+
+                body: JSON.stringify({
+
+                    rowId: rowId,
+                    qty: qty
+
+                })
+
+            })
+            .then(r => r.json())
+            .then(data => {
+
+                loadCart();
+
+            });
+        }
+
+        function increaseQty(rowId)
+        {
+            const item = document.querySelector(`[data-rowid="${rowId}"]`);
+
+            const qty = parseInt(item.dataset.qty);
+
+            updateQty(rowId, qty + 1);
+        }
+
+        function decreaseQty(rowId)
+        {
+            const item = document.querySelector(`[data-rowid="${rowId}"]`);
+
+            const qty = parseInt(item.dataset.qty);
+
+            if (qty <= 1) {
+
+                removeItem(rowId);
+
+                return;
+            }
+
+            updateQty(rowId, qty - 1);
+        }
+
+        function removeItem(rowId)
+        {
+            Swal.fire({
+
+                title: '¿Eliminar producto?',
+                text: 'Se quitará del carrito.',
+                icon: 'warning',
+
+                showCancelButton: true,
+
+                confirmButtonText: 'Sí, eliminar',
+
+                cancelButtonText: 'Cancelar'
+
+            }).then((result) => {
+
+                if (!result.isConfirmed) return;
+
+                fetch('/cart/remove/' + rowId, {
+
+                    method: 'DELETE',
+
+                    headers: {
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]').content
+                    }
+
+                })
+                .then(r => r.json())
+                .then(data => {
+
+                    loadCart();
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Producto eliminado'
+                    });
+
+                });
 
             });
         }
@@ -157,9 +451,20 @@
         let currentProduct = null;
         let selectedColor = null;
         let selectedSize = null;
+        let selectedVariant = null;
 
         function loadProduct(id)
         {
+            selectedColor = null;
+            selectedSize = null;
+            selectedVariant = null;
+
+            document.getElementById('modalSizes').innerHTML = '';
+            document.getElementById('modalStock').innerHTML = '';
+            document.getElementById('modalSku').innerHTML = '';
+            document.getElementById('modalColors').innerHTML = '';
+            document.getElementById('modalGallery').innerHTML = '';
+
             fetch('/producto/' + id + '/detalle')
             .then(response => response.json())
             .then(product => {
@@ -234,8 +539,8 @@
 
                 html += `
                     <button
-                        class="btn btn-outline-light me-2 mb-2"
-                        onclick="selectColor(${color.id})">
+                        class="btn btn-outline-light color-btn me-2 mb-2"
+                        onclick="selectColor(${color.id}, this)">
 
                         ${color.name}
 
@@ -251,20 +556,34 @@
             document.getElementById('modalImage').src = src;
         }
 
-        function selectColor(colorId)
+        function selectColor(colorId, btn)
         {
             selectedColor = colorId;
+            selectedVariant = null;
+            selectedSize = null;
 
-            let variants = currentProduct.variants
-                .filter(v => v.color_id == colorId);
+            document.getElementById('modalStock').innerHTML = '';
+            document.getElementById('modalSku').innerHTML = '';
 
-            if(variants.length > 0)
-            {
-                if(variants[0].image)
-                {
-                    document.getElementById('modalImage')
-                    .src = '/storage/' + variants[0].image;
-                }
+            // Quitar selección anterior
+            document.querySelectorAll('.color-btn').forEach(item => {
+
+                item.classList.remove('btn-warning');
+                item.classList.add('btn-outline-light');
+
+            });
+
+            // Pintar botón seleccionado
+            btn.classList.remove('btn-outline-light');
+            btn.classList.add('btn-warning');
+
+            let variants = currentProduct.variants.filter(v => v.color_id == colorId);
+
+            if (variants.length > 0 && variants[0].image) {
+
+                document.getElementById('modalImage').src =
+                    '/storage/' + variants[0].image.replace(/\\/g,'/');
+
             }
 
             renderSizes(variants);
@@ -278,8 +597,8 @@
 
                 html += `
                     <button
-                        class="btn btn-outline-secondary me-2 mb-2"
-                        onclick="selectSize(${v.id})">
+                        class="btn btn-outline-secondary size-btn me-2 mb-2"
+                        onclick="selectSize(${v.id}, this)">
 
                         ${v.size.name}
 
@@ -290,65 +609,89 @@
             document.getElementById('modalSizes').innerHTML = html;
         }
 
-        function selectSize(variantId)
+        function selectSize(variantId, btn)
         {
             selectedVariant = variantId;
 
-            let variant = currentProduct.variants
-                .find(v => v.id == variantId);
+            document.querySelectorAll('.size-btn').forEach(item => {
 
-            document.getElementById('modalStock')
-                .innerHTML =
-                'Stock disponible: ' + variant.stock;
-
-            document.getElementById('modalSku')
-                .innerHTML =
-                'SKU: ' + variant.sku;
-        }
-
-        document
-        .getElementById('btnAddToCart')
-        .addEventListener('click',function(){
-
-            if(!selectedVariant)
-            {
-                alert('Seleccione una talla');
-                return;
-            }
-
-            fetch('/cart/add',{
-
-                method:'POST',
-
-                headers:{
-                    'Content-Type':'application/json',
-                    'X-CSRF-TOKEN':
-                    document
-                    .querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content
-                },
-
-                body:JSON.stringify({
-
-                    variant_id:selectedVariant
-
-                })
-
-            })
-            .then(r=>r.json())
-            .then(data=>{
-
-                loadCart();
-
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Producto agregado al carrito'
-                });
+                item.classList.remove('btn-warning');
+                item.classList.add('btn-outline-secondary');
 
             });
 
-        });
+            btn.classList.remove('btn-outline-secondary');
+            btn.classList.add('btn-warning');
+
+            let variant = currentProduct.variants.find(v => v.id == variantId);
+
+            document.getElementById('modalStock').innerHTML =
+                'Stock disponible: ' + variant.stock;
+
+            document.getElementById('modalSku').innerHTML =
+                'SKU: ' + variant.sku;
+        }
+
+        const btnAddToCart = document.getElementById('btnAddToCart');
+
+        if (btnAddToCart) {
+
+            btnAddToCart.addEventListener('click', function (){
+
+                if (!selectedColor) {
+
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Seleccione un color'
+                    });
+
+                    return;
+                }
+
+                if (!selectedVariant) {
+
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Seleccione una talla'
+                    });
+
+                    return;
+                }
+
+                fetch('/cart/add',{
+
+                    method:'POST',
+
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRF-TOKEN':
+                        document
+                        .querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content
+                    },
+
+                    body:JSON.stringify({
+
+                        variant_id:selectedVariant
+
+                    })
+
+                })
+                .then(r=>r.json())
+                .then(data=>{
+
+                    loadCart();
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Producto agregado al carrito'
+                    });
+
+                });
+
+            });
+        }
 
 
         document.addEventListener('DOMContentLoaded', function () {

@@ -18,18 +18,19 @@
             </div>
         </div>
         <div class="col-6 col-lg-2">
-            <div class="label-caps text-kinetic-yellow mb-4">SOPORTE</div>
+            <div class="label-caps text-kinetic-yellow mb-4">ENLACES RÁPIDOS</div>
             <ul class="list-unstyled d-flex flex-column gap-3">
-                <li><a href="#">Centro de Ayuda</a></li>
-                <li><a href="#">Seguimiento de Pedidos</a></li>
-                <li><a href="#">Métodos de Pago</a></li>
+                <li><a href="{{ route('home') }}">Inicio</a></li>
+                <li><a href="{{ route('shop.hombre') }}">Hombre</a></li>
+                <li><a href="{{ route('shop.mujer') }}">Mujer</a></li>
+                <li><a href="{{ route('shop.accesorios') }}">Accesorios</a></li>
             </ul>
         </div>
         <div class="col-6 col-lg-2">
             <div class="label-caps text-kinetic-yellow mb-4">LEGAL</div>
             <ul class="list-unstyled d-flex flex-column gap-3">
-                <li><a href="#">Privacidad</a></li>
-                <li><a href="#">Términos</a></li>
+                <li><a href="#">Términos y Condiciones</a></li>
+                <li><a href="#">Política de Privacidad</a></li>
                 <li><a class="fw-bold text-kinetic-yellow" href="#">Libro de Reclamaciones</a></li>
             </ul>
         </div>

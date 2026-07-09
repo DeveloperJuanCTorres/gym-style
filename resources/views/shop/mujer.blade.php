@@ -33,18 +33,18 @@ HERO MUJER
 
         </h1>
 
-        <p class="text-secondary fs-5 mt-4">
+        <p class="text-white fs-5 mt-4">
 
             Ropa deportiva diseñada para sentirte cómoda,
             fuerte y segura en cada entrenamiento.
 
         </p>
 
-        <button class="btn btn-kinetic-primary mt-4">
+        <!-- <button class="btn btn-kinetic-primary mt-4">
 
             EXPLORAR AHORA
 
-        </button>
+        </button> -->
 
     </div>
 
@@ -345,7 +345,7 @@ PRODUCTOS
 PROMO
 ========================================= -->
 
-<section class="promo-section">
+<!-- <section class="promo-section">
 
     <div class="container-fluid px-md-5">
 
@@ -390,7 +390,7 @@ PROMO
 
     </div>
 
-</section>
+</section> -->
 
 
 <div
