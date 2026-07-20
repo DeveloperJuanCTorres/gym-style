@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Reclamos;
 use App\Models\Banner;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\Taxonomy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -61,5 +63,23 @@ class HomeController extends Controller
     {
         $empresa = Company::first();
         return view('politicas',compact('empresa'));
+    }
+
+    public function libroReclamaciones()
+    {
+        $empresa = Company::first();
+
+        return view('libro-reclamaciones', compact('empresa'));
+    }
+
+    public function correoReclamo(Request $request)
+    {
+        $correo = new Reclamos($request);
+        try {
+            Mail::to('reclamos@industrial-hammer.com')->send($correo);
+            return response()->json(['status' => true, 'msg' => "El correo fue enviado satisfactoriamente"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'msg' => "Hubo un error al enviar, inténtalo de nuevo más tarde." . $e->getMessage()]);
+        }
     }
 }

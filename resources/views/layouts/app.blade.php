@@ -26,6 +26,7 @@
 
     <link href="{{asset('css/styles.css')}}?v=<?php echo $version ?>" rel="stylesheet">
     <link href="{{asset('css/topbar.css')}}?v=<?php echo $version ?>" rel="stylesheet">
+    <link href="{{asset('css/phone.css')}}?v=<?php echo $version ?>" rel="stylesheet">
     <!-- Scripts -->
     <!-- vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
 </head>
@@ -701,5 +702,8 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{asset('js/phone.js')}}"></script>
+    <script src="{{asset('js/ubigeo.js')}}"></script>
 </body>
 </html>

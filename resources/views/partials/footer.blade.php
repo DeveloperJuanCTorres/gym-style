@@ -29,9 +29,9 @@
         <div class="col-6 col-lg-2">
             <div class="label-caps text-kinetic-yellow mb-4">LEGAL</div>
             <ul class="list-unstyled d-flex flex-column gap-3">
-                <li><a href="#">Términos y Condiciones</a></li>
-                <li><a href="#">Política de Privacidad</a></li>
-                <li><a class="fw-bold text-kinetic-yellow" href="#">Libro de Reclamaciones</a></li>
+                <li><a href="{{ route('terminos') }}">Términos y Condiciones</a></li>
+                <li><a href="{{ route('politicas') }}">Política de Privacidad</a></li>
+                <li><a class="fw-bold text-kinetic-yellow" href="{{route('libro-reclamaciones')}}">Libro de Reclamaciones</a></li>
             </ul>
         </div>
         <div class="col-12 col-lg-4 text-lg-end border-top border-secondary-subtle pt-4 d-lg-block">

@@ -31,6 +31,9 @@ Route::get('/accesorios',[ShopController::class,'accesorios'])->name('shop.acces
 Route::get('/terminos',[HomeController::class,'terminos'])->name('terminos');
 Route::get('/politicas',[HomeController::class,'politicas'])->name('politicas');
 
+Route::get('/libro-de-reclamaciones', [HomeController::class, 'libroReclamaciones'])
+    ->name('libro-reclamaciones');
+
 Route::get('/producto/{id}/detalle',[ShopController::class,'detalle']);
 
 

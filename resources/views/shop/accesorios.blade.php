@@ -343,7 +343,7 @@ PRODUCTOS
 PROMO
 ========================================= -->
 
-<section class="promo-section">
+<!-- <section class="promo-section">
 
     <div class="container-fluid px-md-5">
 
@@ -388,7 +388,7 @@ PROMO
 
     </div>
 
-</section>
+</section> -->
 
 
 <div

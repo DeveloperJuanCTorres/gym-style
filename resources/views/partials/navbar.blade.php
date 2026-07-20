@@ -237,7 +237,7 @@ OFFCANVAS MOBILE
             <li class="nav-item mb-2">
 
                 <a
-                    href="{{ route('shop.hombre') }}"
+                    href="{{ route('shop.accesorios') }}"
                     class="nav-link text-white">
 
                     Accesorios
