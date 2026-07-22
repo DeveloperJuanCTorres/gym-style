@@ -388,7 +388,7 @@
 
                 setTimeout(function () {
 
-                    window.location.href = "/gracias";
+                    window.location.href = res.redirect;
 
                 }, 1200);
 

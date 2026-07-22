@@ -61,7 +61,8 @@ class CheckoutController extends Controller
             return response()->json([
                 'success'=>true,
                 'message'=>'Pedido registrado correctamente.',
-                'order_number'=>$order->order_number
+                'redirect' => route('checkout.gracias', $order->id)
+                // 'order_number'=>$order->order_number
             ]);
 
         }catch(\Throwable $e){
@@ -196,5 +197,13 @@ class CheckoutController extends Controller
 
 
         return $ruta;
+    }
+
+    public function gracias(Order $order)
+    {
+        $empresa = Company::first();
+        $order->load('items');
+
+        return view('shop.gracias', compact('order', 'empresa'));
     }
 }

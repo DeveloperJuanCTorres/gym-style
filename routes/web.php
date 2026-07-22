@@ -36,6 +36,9 @@ Route::get('/libro-de-reclamaciones', [HomeController::class, 'libroReclamacione
 
 Route::post('/reclamo',[App\Http\Controllers\HomeController::class,'correoReclamo']);
 
+Route::get('/gracias/{order}', [CheckoutController::class, 'gracias'])
+    ->name('checkout.gracias');
+
 Route::post('/newsletter', [HomeController::class, 'subscribe'])
     ->name('newsletter.subscribe');
 
@@ -51,7 +54,7 @@ Route::post('/checkout', [CheckoutController::class, 'store'])
 
 
 
-    
+
 
 Route::post('/cart/add', [CartController::class,'add'])
     ->name('cart.add');
