@@ -91,7 +91,7 @@
 </section>
 
 <section class="tc-container">
-    <div class="tc-card">
+    <div class="tc-card" style="color: #333;">
         @if($empresa->terminos)
         {!! Str::markdown($empresa->terminos) !!}
         @endif

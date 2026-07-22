@@ -7,7 +7,7 @@
 <div class="container-xxl px-4 px-lg-5" style="padding-top: 120px;">
     <!-- Page Header -->
     <div class="mb-5">
-        <h2 class="headline-lg text-primary mb-4 ps-4 border-start border-4 border-secondary">Libro de Reclamaciones</h2>
+        <h1 class="headline-lg navbar-brand fw-bold mb-4 ps-4 border-start border-4 border-secondary">Libro de Reclamaciones</h1>
         <p class="fs-5 text-on-surface-variant" style="max-width: 672px;">
             Si deseas registrar un reclamo o una queja sobre nuestros productos o servicios, puedes hacerlo a través de nuestro Libro de Reclamaciones Virtual.
         </p>
@@ -149,7 +149,7 @@
                             </div>                         
                         </div>
                         <div class="col-lg-12 my-4 text-center">
-                            <button class="btn btn-primary py-3 EnviarReclamo">Enviar reclamo</button>
+                            <button class="btn btn-kinetic-primary py-3 EnviarReclamo">Enviar reclamo</button>
                         </div>
                     </div>
                 </div>                
@@ -551,10 +551,13 @@ document.querySelectorAll('.inputTexto').forEach(function (input) {
                             toast.onmouseleave = Swal.resumeTimer;
                         }
                         });
+                        
                         Toast.fire({
                         icon: "success",
                         title: response.msg
                         });
+
+
                         $("#fecha_nac").val('');
                         $("#tipo_doc").val('');
                         $("#numero_doc").val('');

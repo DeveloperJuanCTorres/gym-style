@@ -261,12 +261,26 @@
             <i class="fa-solid fa-bolt text-kinetic-yellow display-4 mb-4"></i>
             <h2 class="display-5 text-white mb-3">ÚNETE A LA ÉLITE</h2>
             <p class="fs-5 text-secondary mb-5">Recibe acceso anticipado a lanzamientos, entrenamientos exclusivos y ofertas solo para miembros.</p>
-            <form class="row g-3 justify-content-center">
-                <div class="col-md-7">
-                    <input class="form-control newsletter-input" placeholder="TU EMAIL DE ALTO RENDIMIENTO" type="email" />
-                </div>
-                <div class="col-md-auto">
-                    <button class="btn btn-kinetic-primary px-5" type="submit">SUSCRIBIRME</button>
+            <form id="newsletterForm">
+                @csrf
+
+                <div class="row g-3 justify-content-center">
+
+                    <div class="col-md-7">
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control newsletter-input"
+                            placeholder="TU EMAIL DE ALTO RENDIMIENTO"
+                            required>
+                    </div>
+
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-kinetic-primary px-5">
+                            SUSCRIBIRME
+                        </button>
+                    </div>
+
                 </div>
             </form>
             <p class="label-caps text-secondary mt-4" style="font-size: 10px;">Al suscribirte, aceptas nuestra política de privacidad y términos de servicio.</p>
@@ -361,7 +375,8 @@
 
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
     const banners = @json($banners);
@@ -387,6 +402,83 @@
 
     },5000);
 
+</script>
+
+<script>
+    $("#newsletterForm").submit(function (e) {
+
+        e.preventDefault();
+
+        Swal.fire({
+                header: '...',
+                title: 'loading...',
+                allowOutsideClick:false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+
+        $.ajax({
+            url: "{{ route('newsletter.subscribe') }}",
+            type: "POST",
+            data: $(this).serialize(),
+
+            success: function (res) {
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: res.message
+                });
+
+                $("#newsletterForm")[0].reset();
+            },
+
+            error: function (xhr) {
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+
+                if (xhr.status === 422) {
+
+                    Toast.fire({
+                        icon: 'warning',
+                        title: xhr.responseJSON.errors.email[0]
+                    });
+
+                } else {
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrió un error. Inténtalo nuevamente.'
+                    });
+
+                }
+            }
+
+        });
+
+    });
 </script>
 
 <!-- <script>

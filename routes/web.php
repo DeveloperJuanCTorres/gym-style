@@ -34,12 +34,24 @@ Route::get('/politicas',[HomeController::class,'politicas'])->name('politicas');
 Route::get('/libro-de-reclamaciones', [HomeController::class, 'libroReclamaciones'])
     ->name('libro-reclamaciones');
 
+Route::post('/reclamo',[App\Http\Controllers\HomeController::class,'correoReclamo']);
+
+Route::post('/newsletter', [HomeController::class, 'subscribe'])
+    ->name('newsletter.subscribe');
+
 Route::get('/producto/{id}/detalle',[ShopController::class,'detalle']);
 
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
+Route::post('/checkout', [CheckoutController::class, 'store'])
+    ->name('checkout.store');
+
+
+
+    
 
 Route::post('/cart/add', [CartController::class,'add'])
     ->name('cart.add');

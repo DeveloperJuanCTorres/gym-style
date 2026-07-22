@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewsletterMail;
 use App\Mail\Reclamos;
 use App\Models\Banner;
 use App\Models\Company;
@@ -76,10 +77,26 @@ class HomeController extends Controller
     {
         $correo = new Reclamos($request);
         try {
-            Mail::to('reclamos@industrial-hammer.com')->send($correo);
+            Mail::to('reclamos@gymstyleshark.com')->send($correo);
             return response()->json(['status' => true, 'msg' => "El correo fue enviado satisfactoriamente"]);
         } catch (\Exception $e) {
             return response()->json(['status' => false, 'msg' => "Hubo un error al enviar, inténtalo de nuevo más tarde." . $e->getMessage()]);
         }
+    }
+
+    public function subscribe(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $correo = new NewsletterMail($request);
+
+        Mail::to('subscripciones@gymstyleshark.com')->send($correo);
+
+        return response()->json([
+            'success' => true,
+            'message' => '¡Gracias por suscribirte!'
+        ]);
     }
 }
