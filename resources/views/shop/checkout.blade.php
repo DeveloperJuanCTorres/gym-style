@@ -396,9 +396,28 @@
 
             error: function (xhr) {
 
+                let mensaje = "Ocurrió un error.";
+
+                if (xhr.status === 422) {
+
+                    if (xhr.responseJSON.errors) {
+
+                        mensaje = Object.values(xhr.responseJSON.errors)[0][0];
+
+                    } else {
+
+                        mensaje = xhr.responseJSON.message;
+                    }
+
+                } else {
+
+                    mensaje = xhr.responseJSON.message ?? mensaje;
+
+                }
+
                 Toast.fire({
                     icon: "error",
-                    title: xhr.responseJSON.message
+                    title: mensaje
                 });
 
             }

@@ -40,12 +40,6 @@ HERO MUJER
 
         </p>
 
-        <!-- <button class="btn btn-kinetic-primary mt-4">
-
-            EXPLORAR AHORA
-
-        </button> -->
-
     </div>
 
 </section>
@@ -233,7 +227,7 @@ PRODUCTOS
 
                 <h2 class="text-white h1 mb-0">
 
-                    COLECCIÓN HOMBRE
+                    COLECCIÓN MUJER
 
                 </h2>
 
@@ -250,75 +244,61 @@ PRODUCTOS
 
         <div class="row g-4">
 
-            @foreach($products as $product)
+            @forelse($products as $product)
 
-            <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-lg-3">
 
-                <div class="product-card">
+                    <div class="product-card">
 
-                    <div class="product-img-wrapper">
+                        <div class="product-img-wrapper">
 
-                        <img
-                            src="{{ Voyager::image($product->image) }}"
-                            alt="{{ $product->name }}">
+                            <img
+                                src="{{ Voyager::image($product->image) }}"
+                                alt="{{ $product->name }}">
 
-                        <div class="position-absolute top-0 start-0 p-3">
-
-                            <span class="badge badge-new rounded-0">
-
-                                Nuevo
-
-                            </span>
+                            <div class="position-absolute top-0 start-0 p-3">
+                                <span class="badge badge-new rounded-0">
+                                    Nuevo
+                                </span>
+                            </div>
 
                         </div>
 
-                        <!-- <button class="btn btn-add-cart" id="btnAddToCart">
+                        <div class="d-flex justify-content-between">
 
-                            AÑADIR AL CARRITO
+                            <div>
 
-                        </button> -->
+                                <h3 class="text-white fs-6 text-uppercase mb-1">
+                                    {{ $product->name }}
+                                </h3>
 
-                        
+                                <span class="label-caps text-kinetic-yellow">
 
-                    </div>
+                                    @php
+                                        $sizes = $product->variants
+                                            ->pluck('size.name')
+                                            ->filter()
+                                            ->unique()
+                                            ->implode(' / ');
+                                    @endphp
 
-                    <div class="d-flex justify-content-between">
+                                    {{ $sizes }}
 
-                        <div>
+                                </span>
 
-                            <h3 class="text-white fs-6 text-uppercase mb-1">
+                            </div>
 
-                                {{ $product->name }}
+                            <div class="text-end">
 
-                            </h3>
+                                <span class="text-white fw-bold fs-5">
+                                    S/. {{ number_format($product->price,2) }}
+                                </span>
 
-                            <span class="label-caps text-kinetic-yellow">
-                                @php
-                                    $sizes = $product->variants
-                                        ->pluck('size.name')
-                                        ->filter()
-                                        ->unique()
-                                        ->implode(' / ');
-                                @endphp
-
-                                {{ $sizes }}
-
-                            </span>
-
-                        </div>
-
-                        <div class="text-end">
-
-                            <span class="text-white fw-bold fs-5">
-
-                                S/. {{ number_format($product->price,2) }}
-
-                            </span>
+                            </div>
 
                         </div>
 
-                    </div>
-                    <button
+                        <button
                             class="btn btn-outline-light btn-sm mt-2 w-100"
                             data-bs-toggle="modal"
                             data-bs-target="#productModal"
@@ -328,11 +308,44 @@ PRODUCTOS
 
                         </button>
 
+                    </div>
+
                 </div>
 
-            </div>
+            @empty
 
-            @endforeach
+                <div class="col-12">
+
+                    <div class="empty-products">
+
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+
+                        <h2>No encontramos productos</h2>
+
+                        <p>
+                            No existen productos que coincidan con los filtros seleccionados.
+                            Prueba con otra categoría, marca o elimina algunos filtros.
+                        </p>
+
+                        <div class="mt-4">
+
+                            <a href="{{ request()->url() }}"
+                                class="btn btn-warning px-4">
+
+                                <i class="fa-solid fa-rotate-left me-2"></i>
+                                Limpiar filtros
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforelse
 
         </div>
 

@@ -629,8 +629,11 @@
             document.getElementById('modalStock').innerHTML =
                 'Stock disponible: ' + variant.stock;
 
-            document.getElementById('modalSku').innerHTML =
-                'SKU: ' + variant.sku;
+            if (variant.sku) {
+                document.getElementById('modalSku').innerHTML =
+                    'SKU: ' + variant.sku;
+            }
+            
         }
 
         const btnAddToCart = document.getElementById('btnAddToCart');

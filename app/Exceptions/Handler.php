@@ -27,4 +27,18 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof \Exception &&
+            $e->getMessage() === 'No puede eliminar este registro porque tiene productos asociados.') {
+
+            return redirect()->back()->with([
+                'message'    => $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+        }
+
+        return parent::render($request, $e);
+    }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CheckoutController extends Controller
 {
@@ -22,13 +23,36 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required|max:100',
-            'last_name' => 'required|max:100',
-            'email' => 'required|email',
-            'phone' => 'required|max:20',
-            'shipping_method' => 'required|in:delivery,pickup',
-        ]);
+        // $request->validate([
+        //     'first_name' => 'required|max:100',
+        //     'last_name' => 'required|max:100',
+        //     'email' => 'required|email',
+        //     'phone' => 'required|max:20',
+        //     'shipping_method' => 'required|in:delivery,pickup',
+        // ]);
+
+        Validator::make(
+            $request->all(),
+            [
+                'first_name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'email' => 'required|email',
+                'phone' => 'required|max:20',
+                'shipping_method' => 'required|in:delivery,pickup',
+            ],
+            [
+                'required' => 'El campo :attribute es obligatorio.',
+                'email' => 'El campo :attribute debe ser un correo válido.',
+                'in' => 'Seleccione una opción válida.',
+            ],
+            [
+                'first_name' => 'nombres',
+                'last_name' => 'apellidos',
+                'email' => 'correo electrónico',
+                'phone' => 'celular',
+                'shipping_method' => 'método de entrega',
+            ]
+        )->validate();
 
         if ($request->shipping_method == 'delivery') {
 
@@ -101,7 +125,7 @@ class CheckoutController extends Controller
             'shipping_cost'=>0,
             'total'=>Cart::subtotal(2,'.',''),
 
-            'status'=>'pending'
+            'status'=>'pendiente'
 
         ]);
 

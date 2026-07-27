@@ -18,4 +18,17 @@ class Type extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($type) {
+
+            if ($type->products()->exists()) {
+                throw new \Exception('No puede eliminar este registro porque tiene productos asociados.');
+            }
+
+        });
+    }
 }

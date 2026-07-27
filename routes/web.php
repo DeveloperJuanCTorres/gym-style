@@ -30,6 +30,7 @@ Route::get('/mujer',[ShopController::class,'mujer'])->name('shop.mujer');
 Route::get('/accesorios',[ShopController::class,'accesorios'])->name('shop.accesorios');
 Route::get('/terminos',[HomeController::class,'terminos'])->name('terminos');
 Route::get('/politicas',[HomeController::class,'politicas'])->name('politicas');
+Route::get('/pedidos',[HomeController::class,'pedidos'])->name('pedidos');
 
 Route::get('/libro-de-reclamaciones', [HomeController::class, 'libroReclamaciones'])
     ->name('libro-reclamaciones');
@@ -52,6 +53,9 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout', [CheckoutController::class, 'store'])
     ->name('checkout.store');
 
+
+Route::post('/solicitar-producto', [HomeController::class, 'solicitarProducto'])
+    ->name('product-request.store');
 
 
 

@@ -95,20 +95,20 @@ NAVBAR
 
                 </li>
 
-                <!-- <li class="nav-item">
+                <li class="nav-item">
 
-                    <a href="#"
-                        class="nav-link text-warning">
+                    <a href="{{ route('pedidos') }}"
+                        class="nav-link {{ request()->routeIs('pedidos') ? 'active' : '' }}">
 
-                        Promociones
+                        Pedidos
 
                     </a>
 
-                </li> -->
+                </li>
 
             </ul>
 
-            <form class="d-flex ms-auto">
+            <!-- <form class="d-flex ms-auto">
 
                 <div class="input-group">
 
@@ -124,15 +124,15 @@ NAVBAR
 
                 </div>
 
-            </form>
+            </form> -->
 
             <div class="d-flex align-items-center gap-4 ms-4">
 
-                <a href="#" class="nav-icon">
+                <!-- <a href="#" class="nav-icon">
 
                     <i class="fa-regular fa-user"></i>
 
-                </a>
+                </a> -->
 
                 <a
                     href="#"

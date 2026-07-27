@@ -19,4 +19,17 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($brand) {
+
+            if ($brand->products()->exists()) {
+                throw new \Exception('No puede eliminar este registro porque tiene productos asociados.');
+            }
+
+        });
+    }
 }
