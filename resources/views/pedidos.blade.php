@@ -38,7 +38,7 @@ HERO
             <div class="col-lg-6 text-center">
 
                 <img
-                    src="{{ asset('images/request-product.png') }}"
+                    src="{{ asset('images/buscar.png') }}"
                     class="img-fluid"
                     style="max-height:420px;">
 
@@ -99,6 +99,7 @@ FORMULARIO
                                     <input
                                         type="text"
                                         name="first_name"
+                                        require
                                         class="form-control form-control-lg">
 
                                 </div>

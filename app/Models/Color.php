@@ -19,4 +19,17 @@ class Color extends Model
     {
         return $this->hasMany(ProductVariant::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($color) {
+
+            if ($color->variants()->exists()) {
+                throw new \Exception('No puede eliminar este registro porque tiene productos asociados.');
+            }
+
+        });
+    }
 }

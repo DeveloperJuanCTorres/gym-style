@@ -19,4 +19,17 @@ class Size extends Model
     {
         return $this->hasMany(ProductVariant::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($size) {
+
+            if ($size->variants()->exists()) {
+                throw new \Exception('No puede eliminar este registro porque tiene productos asociados.');
+            }
+
+        });
+    }
 }

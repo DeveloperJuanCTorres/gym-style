@@ -395,6 +395,7 @@ CART OFFCANVAS
 
         </div>
 
+        @if(Cart::count() > 0)
         <a href="{{ route('checkout.index') }}" class="btn btn-warning w-100 mb-2">
 
             FINALIZAR COMPRA
@@ -408,6 +409,7 @@ CART OFFCANVAS
             VER CARRITO
 
         </a>
+        @endif
 
     </div>
 

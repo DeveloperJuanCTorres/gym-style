@@ -74,8 +74,8 @@
 
                             </h5>
 
-                        </div>
-
+                        </div>                          
+                        
                         <a
                             href="{{ route('checkout.index') }}"
                             class="btn btn-warning w-100 mt-4">
